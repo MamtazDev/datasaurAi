@@ -8,7 +8,7 @@ const Main = () => {
     <>
       <Header />
 
-      <div className="border-[10px] w-full h-[92.5vh] overflow-y-scroll">
+      <div className="border-[10px] w-full h-[92.5vh] overflow-y-scroll frame">
         <Outlet />
       </div>
 

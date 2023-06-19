@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import CompletionCard from "./CompletionCard";
 
 import { BiGridVertical } from "react-icons/bi";
@@ -18,8 +18,8 @@ const completionsItems = [
   },
 ];
 
-const Completions = () => {
-  const [completions, setCompletions] = useState(completionsItems);
+const Completions = ({ allData, step }) => {
+  const [completions, setCompletions] = useState(allData[step]?.completion);
 
   const dragItem = useRef(null);
   const dragOverItem = useRef(null);
@@ -36,6 +36,10 @@ const Completions = () => {
 
     setCompletions(_completions);
   };
+
+  useEffect(() => {
+    setCompletions(allData[step]?.completion);
+  }, [step]);
   return (
     <>
       <div className="p-4 ">
