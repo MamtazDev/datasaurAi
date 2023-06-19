@@ -1,0 +1,4 @@
+.submit-button {
+  width: 100%;
+  margin-right: calc(100% - 50px) !important;
+}
