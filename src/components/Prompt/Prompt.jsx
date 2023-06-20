@@ -1,8 +1,9 @@
 import React from "react";
 import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
 
-const Prompt = ({ allData, step, setStep }) => {
+const Prompt = ({ allData, step, handleNext, handlePrevious }) => {
   const data = allData[step];
+
   return (
     <div className="border-b p-4 flex justify-between items-baseline">
       <div>
@@ -12,7 +13,7 @@ const Prompt = ({ allData, step, setStep }) => {
       <div className="flex gap-4 items-center">
         <button
           className="h-full"
-          onClick={() => setStep((prev) => prev - 1)}
+          onClick={handlePrevious}
           disabled={step === 0}
         >
           {" "}
@@ -24,7 +25,7 @@ const Prompt = ({ allData, step, setStep }) => {
 
         <button
           className="h-full"
-          onClick={() => setStep((prev) => prev + 1)}
+          onClick={handleNext}
           disabled={step + 1 === allData.length}
         >
           <FiChevronRight className="h-full text-[20px] text-[#aac7fe]" />

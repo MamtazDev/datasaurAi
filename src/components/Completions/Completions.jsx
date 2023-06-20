@@ -18,28 +18,39 @@ const completionsItems = [
   },
 ];
 
-const Completions = ({ allData, step }) => {
-  const [completions, setCompletions] = useState(allData[step]?.completion);
+const Completions = ({
+  allData,
+  step,
+  completions,
+  setCompletions,
+  dragItem,
+  dragOverItem,
+  handleSort,
+}) => {
+  // const [completions, setCompletions] = useState(allData[step]?.completion);
 
-  const dragItem = useRef(null);
-  const dragOverItem = useRef(null);
+  // const dragItem = useRef(null);
+  // const dragOverItem = useRef(null);
 
-  const handleSort = () => {
-    let _completions = [...completions];
+  // const handleSort = () => {
+  //   let _completions = [...completions];
 
-    const draggedItemContent = _completions.splice(dragItem.current, 1)[0];
+  //   const draggedItemContent = _completions.splice(dragItem.current, 1)[0];
 
-    _completions.splice(dragOverItem.current, 0, draggedItemContent);
+  //   _completions.splice(dragOverItem.current, 0, draggedItemContent);
 
-    dragItem.current = null;
-    dragOverItem.current = null;
+  //   dragItem.current = null;
+  //   dragOverItem.current = null;
 
-    setCompletions(_completions);
-  };
+  //   setCompletions(_completions);
+  // };
 
-  useEffect(() => {
-    setCompletions(allData[step]?.completion);
-  }, [step]);
+  // useEffect(() => {
+  //   setCompletions(allData[step]?.completion);
+  // }, [step]);
+
+  const data = allData[step];
+
   return (
     <>
       <div className="p-4 ">
@@ -57,7 +68,7 @@ const Completions = ({ allData, step }) => {
               draggable
               onDragStart={(e) => (dragItem.current = idx)}
               onDragEnter={(e) => (dragOverItem.current = idx)}
-              onDragEnd={handleSort}
+              onDragEnd={() => handleSort(data?.id)}
               onDragOver={(e) => e.preventDefault()}
             >
               <BiGridVertical className="text-[#70788f] text-[18px] cursor-grab" />

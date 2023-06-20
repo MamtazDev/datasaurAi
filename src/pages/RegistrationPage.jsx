@@ -1,7 +1,11 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useContext, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { AuthContext } from "../contexts/AuthProvider";
 
 const RegistrationPage = () => {
+  const [error, setError] = useState("");
+  const { user, setUser } = useContext(AuthContext);
+  const navigate = useNavigate();
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -17,7 +21,31 @@ const RegistrationPage = () => {
       password,
     };
 
-    console.log(data, "register");
+    fetch("http://localhost:8000/api/users/signup", {
+      method: "POST",
+      headers: {
+        "content-type": "Application/json",
+      },
+      body: JSON.stringify(data),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.status === 403) {
+          setError(data.message);
+        }
+        if (data.status === 200) {
+          const auth = {
+            email: data.user.email,
+            userID: data.user._id,
+            name: data.user.name,
+          };
+          localStorage.setItem("dataSaurAuth", JSON.stringify(auth));
+          setUser(auth);
+          setError("");
+          navigate("/");
+        }
+        console.log(data);
+      });
   };
   return (
     <section className="flex justify-center items-center">
@@ -62,6 +90,7 @@ const RegistrationPage = () => {
             </Link>
           </p>
         </div>
+        <p className="text-red-600 text-center mt-2">{error}</p>
         <div className="text-center">
           <button
             className="btn bg-[#3383ff] text-white font-semibold px-5 py-1 rounded-sm mt-10"
