@@ -10,7 +10,8 @@ import { router } from "./routes/routes";
 import { AuthContext } from "./contexts/AuthProvider";
 
 function App() {
-  const { user, setUser, reviews, setReviews } = useContext(AuthContext);
+  const { user, setUser, reviews, setReviews, setCompletion } =
+    useContext(AuthContext);
   const [auth, setAuth] = useState(false);
 
   useEffect(() => {
@@ -22,12 +23,15 @@ function App() {
       fetch(`http://localhost:8000/api/reviews/${usr.email}`)
         .then((res) => res.json())
         .then((data) => setReviews(data.reviews));
+
+      fetch(`http://localhost:8000/api/completions/${usr.email}`)
+        .then((res) => res.json())
+        .then((data) => setCompletion(data.completions));
     }
 
     setAuth(true);
   }, []);
 
-  console.log(reviews, "kfjfk");
   return <>{!auth ? "" : <RouterProvider router={router} />}</>;
 }
 

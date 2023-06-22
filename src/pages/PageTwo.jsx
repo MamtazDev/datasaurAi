@@ -1,7 +1,8 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import Prompt from "../components/Prompt/Prompt";
 import Completions from "../components/Completions/Completions";
 import PageTwoSubmitSection from "../components/SubmitSection/PageTwoSubmitSection";
+import { AuthContext } from "../contexts/AuthProvider";
 // import DragComp from "../components/DragComponent/DragComp";
 
 const pageTwoContent = [
@@ -11,6 +12,8 @@ const pageTwoContent = [
     completion: [
       { id: 1, text: "Completion11" },
       { id: 2, text: "Completion12" },
+      { id: 3, text: "Completion13" },
+      { id: 4, text: "Completion14" },
     ],
   },
   {
@@ -27,6 +30,7 @@ const pageTwoContent = [
     completion: [
       { id: 1, text: "Completion31" },
       { id: 2, text: "Completion32" },
+      { id: 3, text: "Completion33" },
     ],
   },
   {
@@ -43,6 +47,10 @@ const pageTwoContent = [
     completion: [
       { id: 1, text: "Completion51" },
       { id: 2, text: "Completion52" },
+      { id: 3, text: "Completion53" },
+      { id: 4, text: "Completion54" },
+      { id: 5, text: "Completion55" },
+      { id: 6, text: "Completion56" },
     ],
   },
   {
@@ -56,6 +64,7 @@ const pageTwoContent = [
 ];
 
 const PageTwo = () => {
+  const { user, completion } = useContext(AuthContext);
   const [allData, setAllData] = useState(pageTwoContent);
   const [step, setStep] = useState(0);
   const [completions, setCompletions] = useState(allData[step]?.completion);
@@ -99,10 +108,32 @@ const PageTwo = () => {
 
   // submiting data
   const handleSubmit = () => {
-    console.log(allData, "gg");
+    const data = {
+      completions: allData,
+      userId: user?.userID,
+      userEmail: user?.email,
+    };
+    fetch("http://localhost:8000/api/completions/add", {
+      method: "POST",
+      headers: {
+        "content-type": "Application/json",
+      },
+      body: JSON.stringify(data),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.status === 200) {
+          setStep(0);
+        }
+      });
   };
 
+  console.log(completion, "comm");
+
   useEffect(() => {
+    if (completion) {
+      setAllData(completion);
+    }
     setCompletions(allData[step]?.completion);
   }, [handleSort, step]);
   return (

@@ -5,9 +5,8 @@ import { AuthContext } from "../../contexts/AuthProvider";
 
 const Navbar = () => {
   const { user, setUser } = useContext(AuthContext);
-  // const [user, setUser] = useState(true);
 
-  console.log(user, "uuuuuu");
+  const activeClassName = "text-[#538cff]";
 
   const handleLogout = () => {
     localStorage.removeItem("dataSaurAuth");
@@ -17,11 +16,21 @@ const Navbar = () => {
     <nav className="p-5">
       <div className="flex justify-between">
         <div className="flex gap-5">
-          <NavLink to="/" className="text-[#b8bcc8]">
-            Page1
+          <NavLink
+            to="/"
+            className={({ isActive }) =>
+              isActive ? activeClassName : "text-[#b8bcc8]"
+            }
+          >
+            Evaluation
           </NavLink>
-          <NavLink to="/pageTwo" className="text-[#b8bcc8]">
-            Page2
+          <NavLink
+            to="/pageTwo"
+            className={({ isActive }) =>
+              isActive ? activeClassName : "text-[#b8bcc8]"
+            }
+          >
+            Ranking
           </NavLink>
         </div>
         <div>

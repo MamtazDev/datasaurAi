@@ -7,11 +7,15 @@ const AuthProvider = ({ children }) => {
 
   const [reviews, setReviews] = useState(null);
 
+  const [completion, setCompletion] = useState(null);
+
   const authInfo = {
     user,
     setUser,
     reviews,
     setReviews,
+    completion,
+    setCompletion,
   };
 
   return (
